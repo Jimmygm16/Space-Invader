@@ -10,33 +10,48 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
  *
  * @author jpgonzalez
  */
-public class PanelJuego extends JPanel {
+public class PanelJuego extends JPanel implements ActionListener{
     
     private float x = 0, y = 0;
-    LinkedList<Imagen> misImagenes;
-
+    private LinkedList<Imagen> misImagenes;
+    private JButton start;
+    private boolean isPlaying;
+    
     public PanelJuego() {
+        this.setLayout(null);
         this.misImagenes = new LinkedList<>();
+        //Boton start
+        this.start = new JButton("START");
+        this.start.setBounds(640, 10, 100, 100);
+        this.start.addActionListener(this);
+        this.add(start);
+        
         //imagenes
         Imagen jugador = new Imagen("src/recursos/Ship1.png", 50, 50, 0, 0, 3);
         jugador.setMaquina(false);
         Imagen img = new Imagen("src/recursos/estrella.png", 10, 10, 640, 440, 3);
         this.misImagenes.add(jugador);
         this.misImagenes.add(img);
+        
         addKeyListener(new InputTeclado(this));
         this.setBackground(Color.BLACK);
         setReslucion();
+        moverEstrellas();
     }
 
     public void setReslucion() {
@@ -45,19 +60,7 @@ public class PanelJuego extends JPanel {
         setMaximumSize(res);
         setPreferredSize(res);
     }
-
-//    public void importarImagen() {
-//        try {
-//            imagen = ImageIO.read(new FileInputStream("src/recursos/Ship1.png"));
-//            img = ImageIO.read(new FileInputStream("src/recursos/estrella.png"));
-//            for (Imagen misImagene : misImagenes) {
-//                
-//            }
-//        } catch (IOException e) {
-//            
-//        }
-//    }
-
+    
     public void moverEnEjeX(float cantidad) {
             this.x += cantidad;
     }
@@ -75,10 +78,27 @@ public class PanelJuego extends JPanel {
     }
 
     
-public void dibujarImagen(Graphics lapiz,Imagen imagenActual){
+    public void dibujarImagen(Graphics lapiz,Imagen imagenActual){
         Toolkit t = Toolkit.getDefaultToolkit();
         Image imagen = t.getImage(imagenActual.getRuta());
         lapiz.drawImage(imagen,imagenActual.getX(),imagenActual.getY(),
                                imagenActual.getAncho(),imagenActual.getAlto(),this);
+    }
+    
+    public void moverEstrellas(){
+        for (Imagen actual : misImagenes) {
+            if(actual.isMaquina()){
+                actual.moverDE(10);
+            }
+            repaint();
+        }
+    }
+    
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==this.start){
+            System.exit(0);
+        }
     }
 }
