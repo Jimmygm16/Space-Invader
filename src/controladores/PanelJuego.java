@@ -5,11 +5,15 @@
 package controladores;
 
 import inputs.InputTeclado;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -20,12 +24,19 @@ import javax.swing.JPanel;
 public class PanelJuego extends JPanel {
     
     private float x = 0, y = 0;
-    private BufferedImage imagen;
+    LinkedList<Imagen> misImagenes;
 
     public PanelJuego() {
+        this.misImagenes = new LinkedList<>();
+        //imagenes
+        Imagen jugador = new Imagen("src/recursos/Ship1.png", 50, 50, 0, 0, 3);
+        jugador.setMaquina(false);
+        Imagen img = new Imagen("src/recursos/estrella.png", 10, 10, 640, 440, 3);
+        this.misImagenes.add(jugador);
+        this.misImagenes.add(img);
         addKeyListener(new InputTeclado(this));
+        this.setBackground(Color.BLACK);
         setReslucion();
-        importarImagen();
     }
 
     public void setReslucion() {
@@ -35,13 +46,17 @@ public class PanelJuego extends JPanel {
         setPreferredSize(res);
     }
 
-    public void importarImagen() {
-        try {
-            imagen = ImageIO.read(new FileInputStream("src/recursos/Ship1.png"));
-        } catch (IOException e) {
-            
-        }
-    }
+//    public void importarImagen() {
+//        try {
+//            imagen = ImageIO.read(new FileInputStream("src/recursos/Ship1.png"));
+//            img = ImageIO.read(new FileInputStream("src/recursos/estrella.png"));
+//            for (Imagen misImagene : misImagenes) {
+//                
+//            }
+//        } catch (IOException e) {
+//            
+//        }
+//    }
 
     public void moverEnEjeX(float cantidad) {
             this.x += cantidad;
@@ -51,9 +66,19 @@ public class PanelJuego extends JPanel {
         this.y += cantidad;
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        for (Imagen actual : misImagenes) {
+            dibujarImagen(g, (Imagen) actual);
+        }
+    }
 
-        g.drawImage(imagen, (int) x, (int) y, 128, 128, null);
+    
+public void dibujarImagen(Graphics lapiz,Imagen imagenActual){
+        Toolkit t = Toolkit.getDefaultToolkit();
+        Image imagen = t.getImage(imagenActual.getRuta());
+        lapiz.drawImage(imagen,imagenActual.getX(),imagenActual.getY(),
+                               imagenActual.getAncho(),imagenActual.getAlto(),this);
     }
 }
