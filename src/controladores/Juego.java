@@ -55,7 +55,7 @@ public class Juego implements Runnable {
     }
 
     private void desplegarComponentes() {
-        nave = new Nave(278f, 268f);
+        nave = new Nave(368f, 278f, false);
     }
 
     public Nave getNave() {
