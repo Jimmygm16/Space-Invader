@@ -4,6 +4,9 @@
  */
 package controladores;
 
+import entidades.Nave;
+import java.awt.Graphics;
+
 /**
  *
  * @author jpgonzalez
@@ -13,14 +16,20 @@ public class Juego implements Runnable {
     private PanelJuego panel;
     private Thread hiloJuego;
     private final int FPS = 120;
+    private Nave nave;
 
     public Juego() {
-        this.panel = new PanelJuego();
+        desplegarComponentes();
+        this.panel = new PanelJuego(this);
         this.ventana = new VentanaPrincipal(panel);
         this.panel.requestFocus();
         correrJuego();
     }
 
+    public void renderizar(Graphics g) {
+        nave.renderizar(g);
+    }
+    
     @Override
     public void run() {
         double tiempoPorFrame = 1000000000.0 / FPS;
@@ -35,10 +44,21 @@ public class Juego implements Runnable {
             }
         }
     }
+    
+    public void actualizar() {
+        nave.actualizarEstdo();
+    }
 
     public void correrJuego() {
         hiloJuego = new Thread(this);
         hiloJuego.start();
     }
 
+    private void desplegarComponentes() {
+        nave = new Nave(278f, 268f);
+    }
+
+    public Nave getNave() {
+        return nave;
+    }
 }
