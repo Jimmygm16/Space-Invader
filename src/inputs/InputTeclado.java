@@ -21,8 +21,6 @@ public class InputTeclado implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-            // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -57,6 +55,9 @@ public class InputTeclado implements KeyListener {
                 break;
             case KeyEvent.VK_D:
                 panelJuego.getJuego().getNave().setRight(true);
+                break;
+            case KeyEvent.VK_L:
+                panelJuego.getJuego().getNave().disparar();
                 break;
         }
     }
