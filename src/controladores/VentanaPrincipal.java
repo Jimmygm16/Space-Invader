@@ -10,7 +10,7 @@ import javax.swing.JFrame;
  *
  * @author jpgonzalez
  */
-public class VentanaPrincipal  {
+public class VentanaPrincipal {
     private JFrame ventana;
 
     public VentanaPrincipal(PanelJuego panel) {

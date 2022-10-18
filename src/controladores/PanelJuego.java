@@ -36,6 +36,9 @@ public class PanelJuego extends JPanel implements ActionListener {
         setReslucion();
     }
     
+    /**
+     * Define la resolución que va a tener la venatana del juego
+     */
     public void setReslucion() {
         Dimension res = new Dimension(800, 620);
         setMinimumSize(res);
@@ -43,6 +46,10 @@ public class PanelJuego extends JPanel implements ActionListener {
         setPreferredSize(res);
     }
 
+    /**
+     * Imprime los componentes seleccionados para el juego
+     * @param g 
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
