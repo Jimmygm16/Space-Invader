@@ -21,8 +21,8 @@ public class Nave extends Imagen {
     private float velocidad = 2.0f;
     private ArrayList<Disparo> disparos;
     
-    public Nave(float x, float y, boolean maquina) {
-        super(x, y, maquina); // Super de imagen
+    public Nave(boolean maquina, float x, float y, int ancho, int alto) {
+        super(maquina, x, y, ancho, alto);
         this.posiblesNaves = new ArrayList<>();
         this.disparos = new ArrayList<>();
         sacarImagenes(); // Agrega las imagenes al arraylist
@@ -40,7 +40,7 @@ public class Nave extends Imagen {
      * Realiza la acción de disparar, agregando un nuevo proyectil al arreglo
      */
     public void disparar() {
-        disparos.add(new Disparo((int) x, (int) y - 32, true, 1));
+        getDisparos().add(new Disparo(true, getX(), getY(), 128, 128, 1));
     }
     
     /**
@@ -48,7 +48,7 @@ public class Nave extends Imagen {
      * todavia deberían ser impresos en pantalla.
      */
     public void actualizarDiapros() {
-        for (Disparo actual : disparos) {
+        for (Disparo actual : getDisparos()) {
             if(actual.isEnRango()) {
                 actual.actualizarPosicion();
             }
@@ -61,16 +61,16 @@ public class Nave extends Imagen {
      * al mismo.
      */
     public void actualizarPosicion() {
-       if(left && !right) {
-           this.x -= velocidad;
-       } else if(!left && right) {
-           this.x += velocidad;
+       if(isLeft() && !isRight()) {
+           this.setX(this.getX() - getVelocidad());
+       } else if(!isLeft() && isRight()) {
+           this.setX(this.getX() + getVelocidad());
        }
        
-       if(up && !down) {
-           this.y -= velocidad;
-       } else if(!up && down) {
-           this.y += velocidad;
+       if(isUp() && !isDown()) {
+           this.setY(this.getY() - getVelocidad());
+       } else if(!isUp() && isDown()) {
+           this.setY(this.getY() + getVelocidad());
        }
     }
     
@@ -80,9 +80,9 @@ public class Nave extends Imagen {
      */
     public void renderizar(Graphics g) {
         Toolkit t = Toolkit.getDefaultToolkit();
-        Image imagen = t.getImage(posiblesNaves.get(naveUsada).getRuta());
-        g.drawImage(imagen, (int) x, (int) y, 64, 64, null);
-        for(Disparo temp : disparos) {
+        Image imagen = t.getImage(getPosiblesNaves().get(getNaveUsada()).getRuta());
+        g.drawImage(imagen, (int) getX(), (int) getY(), 64, 64, null);
+        for(Disparo temp : getDisparos()) {
             temp.renderizar(g);
         }
         actualizarEstdo();
@@ -92,11 +92,11 @@ public class Nave extends Imagen {
      * Mete las imagenes de las naves a su respectivo arraylist
      */
     public void sacarImagenes() {
-        posiblesNaves.add(new Imagen("src/recursos/Ship1.png", false));
-        posiblesNaves.add(new Imagen("src/recursos/Ship2.png", false));
-        posiblesNaves.add(new Imagen("src/recursos/Ship4.png", false));
-        posiblesNaves.add(new Imagen("src/recursos/Ship5.png", false));
-        posiblesNaves.add(new Imagen("src/recursos/Ship6.png", false));
+        getPosiblesNaves().add(new Imagen("src/recursos/Ship1.png", false));
+        getPosiblesNaves().add(new Imagen("src/recursos/Ship2.png", false));
+        getPosiblesNaves().add(new Imagen("src/recursos/Ship4.png", false));
+        getPosiblesNaves().add(new Imagen("src/recursos/Ship5.png", false));
+        getPosiblesNaves().add(new Imagen("src/recursos/Ship6.png", false));
     }
 
     public boolean isUp() {
@@ -129,5 +129,61 @@ public class Nave extends Imagen {
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    /**
+     * @return the posiblesNaves
+     */
+    public ArrayList<Imagen> getPosiblesNaves() {
+        return posiblesNaves;
+    }
+
+    /**
+     * @param posiblesNaves the posiblesNaves to set
+     */
+    public void setPosiblesNaves(ArrayList<Imagen> posiblesNaves) {
+        this.posiblesNaves = posiblesNaves;
+    }
+
+    /**
+     * @return the naveUsada
+     */
+    public int getNaveUsada() {
+        return naveUsada;
+    }
+
+    /**
+     * @param naveUsada the naveUsada to set
+     */
+    public void setNaveUsada(int naveUsada) {
+        this.naveUsada = naveUsada;
+    }
+
+    /**
+     * @return the velocidad
+     */
+    public float getVelocidad() {
+        return velocidad;
+    }
+
+    /**
+     * @param velocidad the velocidad to set
+     */
+    public void setVelocidad(float velocidad) {
+        this.velocidad = velocidad;
+    }
+
+    /**
+     * @return the disparos
+     */
+    public ArrayList<Disparo> getDisparos() {
+        return disparos;
+    }
+
+    /**
+     * @param disparos the disparos to set
+     */
+    public void setDisparos(ArrayList<Disparo> disparos) {
+        this.disparos = disparos;
     }
 }

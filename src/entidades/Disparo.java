@@ -24,10 +24,12 @@ public class Disparo extends Imagen {
      * @param x coordenada en x
      * @param y coordenada en y
      * @param maquina define si el objeto sera usado por la maquina o n
+     * @param ancho el ancho de la imagen
+     * @param alto el ato de la imagen
      * @param direccion la direccion en la que se moverá el proyectil
      */
-    public Disparo(int x, int y, boolean maquina, int direccion) {
-        super(x, y, maquina);
+    public Disparo(boolean maquina, float x, float y, int ancho, int alto, int direccion) {
+        super(maquina, x, y, ancho, alto);
         hitbox = new Rectangle2D.Float(x, y, 16, 16);
         this.direccion = direccion;
     }
@@ -36,7 +38,6 @@ public class Disparo extends Imagen {
         Toolkit t = Toolkit.getDefaultToolkit();
         Image temp = t.getImage("src/recursos/shot6_3.png");
         g.drawImage(temp, (int) hitbox.x, (int) hitbox.y, 128, 128, null);
-        g.drawRect((int) hitbox.x, (int) hitbox.y, 16, 16);
     }
     
     /**
