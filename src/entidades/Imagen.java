@@ -13,13 +13,13 @@ import java.awt.geom.Rectangle2D;
  */
 public class Imagen {
     
-    private String ruta;
-    private boolean maquina;
-    private float x;
-    private float y;
-    private int ancho;
-    private int alto;
-    private Rectangle2D.Float hitbox;
+    protected String ruta;
+    protected boolean maquina;
+    protected float x;
+    protected float y;
+    protected int ancho;
+    protected int alto;
+    protected Rectangle2D.Float hitbox;
 
     public Imagen(boolean maquina, float x, float y, int ancho, int alto) {
         this.maquina = maquina;

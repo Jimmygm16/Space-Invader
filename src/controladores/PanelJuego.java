@@ -4,6 +4,7 @@
  */
 package controladores;
 
+import entidades.Config;
 import inputs.InputTeclado;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,7 +41,7 @@ public class PanelJuego extends JPanel implements ActionListener {
      * Define la resolución que va a tener la venatana del juego
      */
     public void setReslucion() {
-        Dimension res = new Dimension(800, 620);
+        Dimension res = new Dimension(Config.WIDTH, Config.HEIGH);
         setMinimumSize(res);
         setMaximumSize(res);
         setPreferredSize(res);

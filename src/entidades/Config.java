@@ -8,6 +8,8 @@ package entidades;
  *
  * @author jpgonzalez
  */
-public class Estrellas {
+public interface Config {
+    public final int WIDTH = 800;
+    public final int HEIGH = 620;
     
 }
