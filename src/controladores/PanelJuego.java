@@ -9,29 +9,19 @@ import inputs.InputTeclado;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
  *
  * @author jpgonzalez
  */
-public class PanelJuego extends JPanel implements ActionListener {
-    
-    private JButton start;
+public class PanelJuego extends JPanel {
+
     private Juego juego;
     
     public PanelJuego(Juego juego) {
         this.setLayout(null);
         this.juego = juego;
-        //Boton start
-        this.start = new JButton("START");
-        this.start.setBounds(640, 10, 100, 100);
-        this.start.addActionListener(this);
-        this.setFocusable(true);
-        this.add(start);
 
         addKeyListener(new InputTeclado(this));
         this.setBackground(Color.BLACK);
@@ -56,14 +46,6 @@ public class PanelJuego extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         juego.renderizar(g);
-    }
-    
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==this.start){
-            System.exit(0);
-        }
     }
     
     public Juego getJuego() {
