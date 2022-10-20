@@ -47,6 +47,7 @@ public class Menu extends Estado implements MetodosEstado {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_G:
+                EstadosDeJuego.estadoActual = EstadosDeJuego.JUGANDO;
                 System.out.println("Funciona");
                 break;
         }

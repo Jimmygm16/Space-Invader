@@ -45,7 +45,6 @@ public class Juego implements Runnable {
             if(actual - ultimoFrame >= tiempoPorFrame) {
                 getPanel().repaint();
                 ultimoFrame = actual;
-                System.out.println("Funciona");
             }
         }
     }
@@ -53,10 +52,10 @@ public class Juego implements Runnable {
     public void actualizar() {
         switch (EstadosDeJuego.estadoActual) {
             case MENU:
-                menu.actualizar();
+                getMenu().actualizar();
                 break;
             case JUGANDO:
-                jugando.actualizar();
+                getJugando().actualizar();
                 break;
               
         }
@@ -69,10 +68,10 @@ public class Juego implements Runnable {
     public void renderizar(Graphics g) {
         switch(EstadosDeJuego.estadoActual) {
             case MENU:
-                menu.actualizarRenderizado(g);
+                getMenu().actualizarRenderizado(g);
                 break;
             case JUGANDO:
-                jugando.actualizarRenderizado(g);
+                getJugando().actualizarRenderizado(g);
                 break;
                 
        }
@@ -90,8 +89,8 @@ public class Juego implements Runnable {
      * Imprime los componentes queridos dentro del frame
      */
     private void inicializarPaneles() {
-        this.jugando = new Jugando(this);
-        this.menu = new Menu(this);
+        this.setJugando(new Jugando(this));
+        this.setMenu(new Menu(this));
     }
 
     /**
@@ -148,5 +147,33 @@ public class Juego implements Runnable {
      */
     public void setFPS(int FPS) {
         this.FPS = FPS;
+    }
+
+    /**
+     * @return the jugando
+     */
+    public Jugando getJugando() {
+        return jugando;
+    }
+
+    /**
+     * @param jugando the jugando to set
+     */
+    public void setJugando(Jugando jugando) {
+        this.jugando = jugando;
+    }
+
+    /**
+     * @return the menu
+     */
+    public Menu getMenu() {
+        return menu;
+    }
+
+    /**
+     * @param menu the menu to set
+     */
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 }

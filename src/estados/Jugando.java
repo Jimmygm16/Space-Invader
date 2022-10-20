@@ -27,6 +27,7 @@ public class Jugando extends Estado implements MetodosEstado {
         this.imagenes = new ArrayList<>();
         this.estrellas = new ArrayList<>();
         desplegarComponentes();
+        
     }
     
     /**
@@ -35,19 +36,19 @@ public class Jugando extends Estado implements MetodosEstado {
     private void desplegarComponentes() {
         setNave(new Nave(false, 368f, 278f, 64, 64));
         getImagenes().add(getNave());
-        for(int i = 0; i < (int)Math.random()*30+29; i++){
+        for(int i = 0; i < (int)Math.random()*50+25; i++){
             this.estrellas.add(new Estrella(false, 
                     Math.round(Math.random()*800+10), 
-                    Math.round(Math.random()*620+10), 13, 13));
+                    Math.round(Math.random()*620+10), 7, 7));
         }
     }
     
-    //@Override
+    @Override
     public void actualizar() {
         this.nave.actualizarEstdo();
     }
 
-    //@Override
+    @Override
     public void actualizarRenderizado(Graphics g) {
         for(Estrella actu : estrellas) {
             actu.renderizar(g);

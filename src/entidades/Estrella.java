@@ -23,11 +23,16 @@ public class Estrella extends Imagen implements Config{
         Toolkit t = Toolkit.getDefaultToolkit();
         Image temp = t.getImage("src/recursos/estrella.png");
         g.drawImage(temp, (int) x, (int) y, this.getAncho(), this.getAlto(), null);
+        actualizarPosicion();
     }
 
     @Override
     public void actualizarPosicion() {
-        
+        if(this.getX() < 0) {
+            this.setX(Config.WIDTH + 10);
+            this.setY(Math.round(Math.random()*620+5));
+        }
+        this.setX(this.getX() - 2.0f);
     }
     
 }

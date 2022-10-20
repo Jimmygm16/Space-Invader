@@ -12,5 +12,6 @@ public enum EstadosDeJuego {
     
     JUGANDO, MENU, PAUSA, MUERTE;
     
-    public static EstadosDeJuego estadoActual = JUGANDO;
+    public static EstadosDeJuego estadoActual = MENU;
+    
 }
