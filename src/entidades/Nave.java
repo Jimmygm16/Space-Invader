@@ -102,6 +102,10 @@ public class Nave extends Imagen implements Config {
         getPosiblesNaves().add(new Imagen("src/recursos/Ship6.png", false));
     }
 
+    /**
+     * Devuelve algo
+     * @return 
+     */
     public boolean isUp() {
         return up;
     }
