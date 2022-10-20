@@ -30,6 +30,7 @@ public class PanelJuego extends JPanel implements ActionListener {
         this.start = new JButton("START");
         this.start.setBounds(640, 10, 100, 100);
         this.start.addActionListener(this);
+        this.setFocusable(true);
         this.add(start);
 
         addKeyListener(new InputTeclado(this));

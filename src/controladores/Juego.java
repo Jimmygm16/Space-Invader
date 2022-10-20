@@ -4,11 +4,10 @@
  */
 package controladores;
 
-import entidades.Estrella;
-import entidades.Imagen;
-import entidades.Nave;
+import estados.EstadosDeJuego;
+import estados.Jugando;
+import estados.Menu;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 /**
  *
@@ -17,34 +16,20 @@ import java.util.ArrayList;
 public class Juego implements Runnable {
     private VentanaPrincipal ventana;
     private PanelJuego panel;
-    private ArrayList<Imagen> imagenes;
-    private ArrayList<Estrella> estrellas;
     private Thread hiloJuego;
     private int FPS = 120;  // Cantidad de fps en el juego
-    private Nave nave; 
+    
+    private Jugando jugando;
+    private Menu menu;
 
     public Juego() {
-        this.imagenes = new ArrayList<>();
-        this.estrellas = new ArrayList<>();
-        crearEstrellas();
-        desplegarComponentes();
+        inicializarPaneles();
         this.panel = new PanelJuego(this);
         this.ventana = new VentanaPrincipal(getPanel());
         this.panel.requestFocus();
-        System.out.println(this.estrellas);
         correrJuego();
     }
 
-    /**
-     * Renderiza al jugador
-     * @param g 
-     */
-    public void renderizar(Graphics g) {
-        for(Estrella temp : estrellas) {
-            temp.renderizar(g);
-        }
-        getNave().renderizar(g);
-    }
     
     /**
      * Hilo encargado de correr el juego con la cantidad de fps queridos
@@ -60,12 +45,37 @@ public class Juego implements Runnable {
             if(actual - ultimoFrame >= tiempoPorFrame) {
                 getPanel().repaint();
                 ultimoFrame = actual;
+                System.out.println("Funciona");
             }
         }
     }
     
     public void actualizar() {
-        getNave().actualizarEstdo();
+        switch (EstadosDeJuego.estadoActual) {
+            case MENU:
+                menu.actualizar();
+                break;
+            case JUGANDO:
+                jugando.actualizar();
+                break;
+              
+        }
+    }
+    
+     /**
+     * Renderiza al jugador
+     * @param g 
+     */
+    public void renderizar(Graphics g) {
+        switch(EstadosDeJuego.estadoActual) {
+            case MENU:
+                menu.actualizarRenderizado(g);
+                break;
+            case JUGANDO:
+                jugando.actualizarRenderizado(g);
+                break;
+                
+       }
     }
 
     /**
@@ -79,13 +89,9 @@ public class Juego implements Runnable {
     /**
      * Imprime los componentes queridos dentro del frame
      */
-    private void desplegarComponentes() {
-        setNave(new Nave(false, 368f, 278f, 64, 64));
-        getImagenes().add(getNave());
-    }
-
-    public Nave getNave() {
-        return nave;
+    private void inicializarPaneles() {
+        this.jugando = new Jugando(this);
+        this.menu = new Menu(this);
     }
 
     /**
@@ -117,20 +123,6 @@ public class Juego implements Runnable {
     }
 
     /**
-     * @return the imagenes
-     */
-    public ArrayList<Imagen> getImagenes() {
-        return imagenes;
-    }
-
-    /**
-     * @param imagenes the imagenes to set
-     */
-    public void setImagenes(ArrayList<Imagen> imagenes) {
-        this.imagenes = imagenes;
-    }
-
-    /**
      * @return the hiloJuego
      */
     public Thread getHiloJuego() {
@@ -156,22 +148,5 @@ public class Juego implements Runnable {
      */
     public void setFPS(int FPS) {
         this.FPS = FPS;
-    }
-
-    /**
-     * @param nave the nave to set
-     */
-    public void setNave(Nave nave) {
-        this.nave = nave;
-    }
-    
-    public void crearEstrellas(){
-        int cantidad = (int)Math.random()*30+29;
-        for(int i = 0; i<cantidad; i++){
-            Estrella aux = new Estrella(false, Math.round(Math.random()*800+10), Math.round(Math.random()*620+10), 13, 13);
-            System.out.println(Math.round((Double)Math.random()*800+10));
-            this.estrellas.add(aux);
-        }
-        
     }
 }

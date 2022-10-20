@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
  *
  * @author jpgonzalez
  */
-public class Disparo extends Imagen {
+public class Disparo extends Imagen implements Config{
     private Rectangle2D.Float hitbox;
     private float velocidadProyectil = 3.0f;
     private int direccion = 1;
@@ -34,6 +34,7 @@ public class Disparo extends Imagen {
         this.direccion = direccion;
     }
     
+    @Override
     public void renderizar(Graphics g) {
         Toolkit t = Toolkit.getDefaultToolkit();
         Image temp = t.getImage("src/recursos/shot6_3.png");
@@ -43,6 +44,7 @@ public class Disparo extends Imagen {
     /**
      * Actualiza la posicion del disparo
      */
+    @Override
     public void actualizarPosicion() {
         hitbox.x += direccion * velocidadProyectil;
     }

@@ -25,41 +25,12 @@ public class InputTeclado implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                panelJuego.getJuego().getNave().setUp(false);
-                break;
-            case KeyEvent.VK_A:
-                panelJuego.getJuego().getNave().setLeft(false);
-                break;
-            case KeyEvent.VK_S:
-                panelJuego.getJuego().getNave().setDown(false);
-                break;
-            case KeyEvent.VK_D:
-                panelJuego.getJuego().getNave().setRight(false);
-                break;
-        }
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                panelJuego.getJuego().getNave().setUp(true);
-                break;
-            case KeyEvent.VK_A:
-                panelJuego.getJuego().getNave().setLeft(true);
-                break;
-            case KeyEvent.VK_S:
-                panelJuego.getJuego().getNave().setDown(true);
-                break;
-            case KeyEvent.VK_D:
-                panelJuego.getJuego().getNave().setRight(true);
-                break;
-            case KeyEvent.VK_L:
-                panelJuego.getJuego().getNave().disparar();
-                break;
-        }
+
     }
 
 }

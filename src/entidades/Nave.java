@@ -61,6 +61,7 @@ public class Nave extends Imagen implements Config {
      * movimiento del jugador y da la posibilidad de mover en vertical
      * al mismo.
      */
+    @Override
     public void actualizarPosicion() {
        if(isLeft() && !isRight() && this.getX() > 0) {
            this.setX(this.getX() - getVelocidad());
@@ -79,6 +80,7 @@ public class Nave extends Imagen implements Config {
      * Se encarga de dibujar la nave en pantalla
      * @param g 
      */
+    @Override
     public void renderizar(Graphics g) {
         Toolkit t = Toolkit.getDefaultToolkit();
         Image imagen = t.getImage(getPosiblesNaves().get(getNaveUsada()).getRuta());
