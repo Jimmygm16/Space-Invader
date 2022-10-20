@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author jpgonzalez
  */
-public class Nave extends Imagen {
+public class Nave extends Imagen implements Config {
     
     private ArrayList<Imagen> posiblesNaves;
     private int naveUsada = 0;
@@ -34,13 +34,14 @@ public class Nave extends Imagen {
     public void actualizarEstdo() {
         actualizarPosicion();
         actualizarDiapros();
+
     }
     
     /**
      * Realiza la acción de disparar, agregando un nuevo proyectil al arreglo
      */
     public void disparar() {
-        getDisparos().add(new Disparo(true, getX(), getY(), 128, 128, 1));
+        getDisparos().add(new Disparo(false, getX(), getY()-32, 128, 128, 1));
     }
     
     /**
@@ -60,16 +61,17 @@ public class Nave extends Imagen {
      * movimiento del jugador y da la posibilidad de mover en vertical
      * al mismo.
      */
+    @Override
     public void actualizarPosicion() {
-       if(isLeft() && !isRight()) {
+       if(isLeft() && !isRight() && this.getX() > 0) {
            this.setX(this.getX() - getVelocidad());
-       } else if(!isLeft() && isRight()) {
+       } else if(!isLeft() && isRight() && this.getX() <Config.WIDTH - this.getAncho()) {
            this.setX(this.getX() + getVelocidad());
        }
        
-       if(isUp() && !isDown()) {
+       if(isUp() && !isDown() && this.getY() > 0) {
            this.setY(this.getY() - getVelocidad());
-       } else if(!isUp() && isDown()) {
+       } else if(!isUp() && isDown() && this.getY() < Config.HEIGH - this.getAlto()) {
            this.setY(this.getY() + getVelocidad());
        }
     }
@@ -78,6 +80,7 @@ public class Nave extends Imagen {
      * Se encarga de dibujar la nave en pantalla
      * @param g 
      */
+    @Override
     public void renderizar(Graphics g) {
         Toolkit t = Toolkit.getDefaultToolkit();
         Image imagen = t.getImage(getPosiblesNaves().get(getNaveUsada()).getRuta());

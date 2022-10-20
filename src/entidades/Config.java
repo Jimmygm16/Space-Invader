@@ -4,10 +4,16 @@
  */
 package entidades;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author jpgonzalez
  */
-public class Estrellas {
+public interface Config {
+    public final int WIDTH = 800;
+    public final int HEIGH = 620;
     
+    public void renderizar(Graphics g);
+    public void actualizarPosicion();
 }

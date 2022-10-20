@@ -4,10 +4,10 @@
  */
 package controladores;
 
-import entidades.Imagen;
-import entidades.Nave;
+import estados.EstadosDeJuego;
+import estados.Jugando;
+import estados.Menu;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 /**
  *
@@ -16,67 +16,137 @@ import java.util.ArrayList;
 public class Juego implements Runnable {
     private VentanaPrincipal ventana;
     private PanelJuego panel;
-    private ArrayList<Imagen> imagenes;
     private Thread hiloJuego;
-    private final int FPS = 120;  // Cantidad de fps en el juego
-    private Nave nave; 
+    private int FPS = 120;  // Cantidad de fps en el juego
+    
+    private Jugando jugando;
+    private Menu menu;
 
     public Juego() {
-        desplegarComponentes();
+        inicializarPaneles();
         this.panel = new PanelJuego(this);
-        this.ventana = new VentanaPrincipal(panel);
-        this.imagenes = new ArrayList<>();
+        this.ventana = new VentanaPrincipal(getPanel());
         this.panel.requestFocus();
         correrJuego();
     }
 
-    /**
-     * Renderiza al jugador
-     * @param g 
-     */
-    public void renderizar(Graphics g) {
-        nave.renderizar(g);
-    }
     
     /**
      * Hilo encargado de correr el juego con la cantidad de fps queridos
      */
     @Override
     public void run() {
-        double tiempoPorFrame = 1000000000.0 / FPS;
+        double tiempoPorFrame = 1000000000.0 / getFPS();
         long ultimoFrame = System.nanoTime();
         long actual = System.nanoTime();
 
         while(true) {
             actual = System.nanoTime();
             if(actual - ultimoFrame >= tiempoPorFrame) {
-                panel.repaint();
+                getPanel().repaint();
                 ultimoFrame = actual;
+                System.out.println("Funciona");
             }
         }
     }
     
     public void actualizar() {
-        nave.actualizarEstdo();
+        switch (EstadosDeJuego.estadoActual) {
+            case MENU:
+                menu.actualizar();
+                break;
+            case JUGANDO:
+                jugando.actualizar();
+                break;
+              
+        }
+    }
+    
+     /**
+     * Renderiza al jugador
+     * @param g 
+     */
+    public void renderizar(Graphics g) {
+        switch(EstadosDeJuego.estadoActual) {
+            case MENU:
+                menu.actualizarRenderizado(g);
+                break;
+            case JUGANDO:
+                jugando.actualizarRenderizado(g);
+                break;
+                
+       }
     }
 
     /**
      * Metodo inicializador del ciclo de juego
      */
     public void correrJuego() {
-        hiloJuego = new Thread(this);
-        hiloJuego.start();
+        setHiloJuego(new Thread(this));
+        getHiloJuego().start();
     }
 
     /**
      * Imprime los componentes queridos dentro del frame
      */
-    private void desplegarComponentes() {
-        nave = new Nave(false, 368f, 278f, 64, 64);
-        imagenes.add(nave);
+    private void inicializarPaneles() {
+        this.jugando = new Jugando(this);
+        this.menu = new Menu(this);
     }
 
-    public Nave getNave() {
-        return nave;
+    /**
+     * @return the ventana
+     */
+    public VentanaPrincipal getVentana() {
+        return ventana;
+    }
+
+    /**
+     * @param ventana the ventana to set
+     */
+    public void setVentana(VentanaPrincipal ventana) {
+        this.ventana = ventana;
+    }
+
+    /**
+     * @return the panel
+     */
+    public PanelJuego getPanel() {
+        return panel;
+    }
+
+    /**
+     * @param panel the panel to set
+     */
+    public void setPanel(PanelJuego panel) {
+        this.panel = panel;
+    }
+
+    /**
+     * @return the hiloJuego
+     */
+    public Thread getHiloJuego() {
+        return hiloJuego;
+    }
+
+    /**
+     * @param hiloJuego the hiloJuego to set
+     */
+    public void setHiloJuego(Thread hiloJuego) {
+        this.hiloJuego = hiloJuego;
+    }
+
+    /**
+     * @return the FPS
+     */
+    public int getFPS() {
+        return FPS;
+    }
+
+    /**
+     * @param FPS the FPS to set
+     */
+    public void setFPS(int FPS) {
+        this.FPS = FPS;
     }
 }
